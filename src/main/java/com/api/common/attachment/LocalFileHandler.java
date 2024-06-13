@@ -56,7 +56,7 @@ public class LocalFileHandler implements FileHandler {
 	private String workDir = "";
 
 	@Autowired
-	private ApiProperties haloProperties;
+	private ApiProperties apiProperties;
 
 	/**
 	 * Check work directory.
@@ -64,6 +64,8 @@ public class LocalFileHandler implements FileHandler {
 	private void checkWorkDir() {
 		// Get work path
 		Path workPath = Paths.get(workDir);
+
+		System.out.println("::" + workPath);
 
 		File file = new File(workDir);
 		if (!file.exists())
@@ -93,7 +95,7 @@ public class LocalFileHandler implements FileHandler {
 		Assert.notNull(file, "Multipart file must not be null");
 
 		// Get work dir
-		workDir = FileHandler.normalizeDirectory(haloProperties.getWorkDir());
+		workDir = FileHandler.normalizeDirectory(apiProperties.getWorkDir());
 
 		// Check work directory
 		checkWorkDir();
@@ -112,11 +114,15 @@ public class LocalFileHandler implements FileHandler {
 				file.getOriginalFilename());
 
 		// Build sub file path
-		String subFilePath = UPLOAD_SUB_DIR + basename + '.' + extension;
+		String subFilePath =   UPLOAD_SUB_DIR + basename + '.' + extension;
 
 		// Get upload path
 		Path uploadPath = Paths.get(workDir, subFilePath);
 
+		System.out.println("1"+subFilePath);
+		System.out.println("2"+uploadPath);
+		System.out.println("3"+workDir);
+		
 		log.info("Uploading file: [{}]to directory: [{}]", file.getOriginalFilename(), uploadPath.toString());
 
 		try {
@@ -131,7 +137,7 @@ public class LocalFileHandler implements FileHandler {
 			// Build upload result
 			UploadResult uploadResult = new UploadResult();
 			uploadResult.setFilename(originalBasename);
-			uploadResult.setFilePath(haloProperties.getImageHost() + subFilePath);
+			uploadResult.setFilePath(apiProperties.getDomain() +apiProperties.getMediaPrefix() + subFilePath);
 			uploadResult.setKey(subFilePath);
 			uploadResult.setSuffix(extension);
 			uploadResult.setMediaType(MediaType.valueOf(Objects.requireNonNull(file.getContentType())));
@@ -141,7 +147,8 @@ public class LocalFileHandler implements FileHandler {
 			handleImageMetadata(file, uploadResult, () -> {
 				// Upload a thumbnail
 				final String thumbnailBasename = basename + THUMBNAIL_SUFFIX;
-				final String thumbnailSubFilePath = UPLOAD_SUB_DIR + thumbnailBasename + '.' + extension;
+				final String thumbnailSubFilePath =  UPLOAD_SUB_DIR + thumbnailBasename
+						+ '.' + extension;
 				final Path thumbnailPath = Paths.get(workDir + thumbnailSubFilePath);
 				try (InputStream is = file.getInputStream()) {
 					// Generate thumbnail
@@ -149,7 +156,7 @@ public class LocalFileHandler implements FileHandler {
 					boolean result = generateThumbnail(originalImage, thumbnailPath, extension);
 					if (result) {
 						// Set thumb path
-						return haloProperties.getImageHost() + thumbnailSubFilePath;
+						return apiProperties.getDomain()+apiProperties.getMediaPrefix() + thumbnailSubFilePath;
 					}
 				} catch (IOException e) {
 					log.warn("Failed to open image file.", e);
@@ -157,7 +164,7 @@ public class LocalFileHandler implements FileHandler {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				return haloProperties.getImageHost() + subFilePath;
+				return apiProperties.getDomain()+apiProperties.getMediaPrefix() + subFilePath;
 			});
 
 			log.info("Uploaded file: [{}] to directory: [{}] successfully", file.getOriginalFilename(),

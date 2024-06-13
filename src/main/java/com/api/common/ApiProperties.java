@@ -16,7 +16,7 @@ import lombok.NonNull;
  * Halo configuration properties.
  *
  * @author ssatwa
- * @date 2019-03-15
+ * @date 2023-03-15
  */
 @Data
 @Component
@@ -46,10 +46,10 @@ public class ApiProperties {
 	/**
 	 * Work directory.
 	 */
-	private String workDir = ensureSuffix(System.getProperties().getProperty("user.home"), File.separator) + ".halo"
+	private String workDir = ensureSuffix(System.getProperties().getProperty("user.home"), File.separator) + ".media"
 			+ File.separator;
 
-	private String imageHost = "";
+	private String domain = "";
 
 	@NonNull
 	public static String ensureSuffix(@NonNull String string, @NonNull String suffix) {
@@ -58,6 +58,10 @@ public class ApiProperties {
 
 		return StringUtils.removeEnd(string, suffix) + suffix;
 	}
+	
+	
+	
+	private String mediaPrefix = "/cloud/image/";
 
 	/**
 	 * Upload prefix.
