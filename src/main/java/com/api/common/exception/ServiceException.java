@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class ServiceException extends AbstractBlinkedException {
+public class ServiceException extends AbstractItWaysException {
 
 	public ServiceException(String message) {
 		super(message);

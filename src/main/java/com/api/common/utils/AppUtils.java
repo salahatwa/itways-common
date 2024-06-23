@@ -1,9 +1,9 @@
 package com.api.common.utils;
 
-
 import java.io.File;
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.UUID;
@@ -13,7 +13,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import cn.hutool.core.util.URLUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,15 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AppUtils {
 
-	 /**
-     * Path separator.
-     */
-    public static final String FILE_SEPARATOR = File.separator;
-    
-    public final static String PROTOCOL_HTTPS = "https://";
+	/**
+	 * Path separator.
+	 */
+	public static final String FILE_SEPARATOR = File.separator;
 
-    public final static String PROTOCOL_HTTP = "http://";
-    
+	public final static String PROTOCOL_HTTPS = "https://";
+
+	public final static String PROTOCOL_HTTP = "http://";
+
 	public static final String URL_SEPARATOR = "/";
 	private static final String RE_HTML_MARK = "(<[^<]*?>)|(<[\\s]*?/[^<]*?>)|(<[^<]*?/[\\s]*?>)";
 
@@ -258,7 +257,13 @@ public class AppUtils {
 			return originalUrl;
 		}
 
-		return URLUtil.normalize(originalUrl);
+		try {
+			return NormalizeURL.normalize(originalUrl);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return originalUrl;
 	}
 
 	/**
@@ -288,8 +293,6 @@ public class AppUtils {
 		}
 		return content.replaceAll(RE_HTML_MARK, StringUtils.EMPTY);
 	}
-
-
 
 	/**
 	 * 获取指定长度随机字符串

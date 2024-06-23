@@ -3,11 +3,9 @@ package com.api.common.utils;
 import java.util.Optional;
 
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import cn.hutool.extra.servlet.ServletUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 //import cn.hutool.extra.servlet.ServletUtil;

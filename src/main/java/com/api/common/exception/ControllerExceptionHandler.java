@@ -121,8 +121,8 @@ public class ControllerExceptionHandler {
 		return response;
 	}
 
-	@ExceptionHandler(AbstractBlinkedException.class)
-	public ResponseEntity<BaseResponse<?>> handleHaloException(AbstractBlinkedException e) {
+	@ExceptionHandler(AbstractItWaysException.class)
+	public ResponseEntity<BaseResponse<?>> handleHaloException(AbstractItWaysException e) {
 		System.out.println(">>>>>>>>>>>>>>>>::::" + e.getMessage());
 		BaseResponse<Object> baseResponse = handleBaseException(e);
 		baseResponse.setStatus(e.getStatus().value());

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class AlreadyExistsException extends AbstractBlinkedException {
+public class AlreadyExistsException extends AbstractItWaysException {
 
 	public AlreadyExistsException(String message) {
 		super(message);

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class BadRequestException extends AbstractBlinkedException {
+public class BadRequestException extends AbstractItWaysException {
 
 	public BadRequestException(String message) {
 		super(message);

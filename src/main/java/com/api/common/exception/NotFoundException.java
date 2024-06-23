@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class NotFoundException extends AbstractBlinkedException {
+public class NotFoundException extends AbstractItWaysException {
 
 	public NotFoundException(String message) {
 		super(message);

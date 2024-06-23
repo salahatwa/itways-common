@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class BeanUtilsException extends AbstractBlinkedException {
+public class BeanUtilsException extends AbstractItWaysException {
 
     public BeanUtilsException(String message) {
         super(message);

@@ -8,20 +8,20 @@ import org.springframework.lang.Nullable;
  * Base exception of the project.
  *
  * @author ssatwa
- * @date 2019-03-15
+ * @date 2024-03-15
  */
-public abstract class AbstractBlinkedException extends RuntimeException {
+public abstract class AbstractItWaysException extends RuntimeException {
 
     /**
      * Error errorData.
      */
     private Object errorData;
 
-    public AbstractBlinkedException(String message) {
+    public AbstractItWaysException(String message) {
         super(message);
     }
 
-    public AbstractBlinkedException(String message, Throwable cause) {
+    public AbstractItWaysException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractBlinkedException extends RuntimeException {
      * @return current exception.
      */
     @NonNull
-    public AbstractBlinkedException setErrorData(@Nullable Object errorData) {
+    public AbstractItWaysException setErrorData(@Nullable Object errorData) {
         this.errorData = errorData;
         return this;
     }

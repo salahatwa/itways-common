@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author ssatwa
  */
-public class ForbiddenException extends AbstractBlinkedException {
+public class ForbiddenException extends AbstractItWaysException {
 
 	public ForbiddenException(String message) {
 		super(message);
