@@ -1,5 +1,6 @@
 package com.api.common.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
  * @date 3/18/19
  */
 public class DateUtils {
+	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private DateUtils() {
     }
