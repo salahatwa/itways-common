@@ -19,6 +19,24 @@ public class DateUtils {
 
     private DateUtils() {
     }
+    
+    public static long getDayCount(String start, String end) {
+		long diff = -1;
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+			Date dateEnd = DATE_FORMAT.parse(end);
+
+			// time is always 00:00:00, so rounding should help to ignore the missing hour
+			// when going from winter to summer time, as well as the extra hour in the other
+			// direction
+			diff = Math.round((dateEnd.getTime() - dateStart.getTime()) / (double) 86400000);
+		} catch (Exception e) {
+			// handle the exception according to your own situation
+		}
+		return diff;
+	}
+    
+    
 
     /**
      * Gets current date.
