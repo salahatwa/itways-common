@@ -3,9 +3,10 @@ package com.api.common.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -130,12 +131,68 @@ public class DateUtils {
 		}
 		return 0;
 	}
+	
+	public static String getNextQuarter(String start) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
+			var d= startDate.plusMonths(3);//.with(TemporalAdjusters.lastDayOfMonth())
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			return d.format(formatter);
+		} catch (Exception ex) {
+
+		}
+		return start;
+	}
+	
+	
+	public static String getNextMonth(String start) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
+			var d= startDate.plusMonths(1);//.with(TemporalAdjusters.lastDayOfMonth())
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			return d.format(formatter);
+		} catch (Exception ex) {
+
+		}
+		return start;
+	}
+	
+	public static String getNextYear(String start) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
+			var d= startDate.plusYears(1);//.with(TemporalAdjusters.lastDayOfMonth())
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			return d.format(formatter);
+		} catch (Exception ex) {
+
+		}
+		return start;
+	}
 
 	public static void main(String[] args) {
 //		System.out.println(validateDates("2024-7-7", "2024-7-31"));
 
 		try {
-			System.out.println(getMonthsBetween("2024-7-10", "2024-8-31"));
+			System.out.println(getNextMonth("2024-7-10"));
+//			System.out.println(getMonthsBetween("2024-7-10", "2024-8-31"));
 //			System.out.println(isDateInBetween("2024-7-8", "2024-7-31", DATE_FORMAT.parse("2024-8-1")));
 //			System.out.println(isDateInBetween("2024-7-9", "2024-7-31", new Date()));
 //			System.out.println(isExpiredDate("2024-8-25", DATE_FORMAT.parse("2024-8-25")));
