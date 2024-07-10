@@ -3,11 +3,12 @@ package com.api.common.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.lang.NonNull;
@@ -20,6 +21,10 @@ import org.springframework.util.Assert;
  * @date 3/18/19
  */
 public class DateUtils {
+
+	private Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
+//	Date currentDate = calendar.getTime();
+
 	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	private DateUtils() {
@@ -83,11 +88,11 @@ public class DateUtils {
 		return ((date.after(min) || date.equals(min)) && (date.before(max) || date.equals(max)));
 	}
 
-	public static boolean isFutureDate(String start,String end,  final Date currentDate) {
+	public static boolean isFutureDate(String start, String end, final Date currentDate) {
 
-		if(isExpiredDate(end, currentDate))
+		if (isExpiredDate(end, currentDate))
 			return !isExpiredDate(end, currentDate);
-		
+
 		Date startDt = null;
 		try {
 			startDt = DATE_FORMAT.parse(start);
@@ -97,8 +102,8 @@ public class DateUtils {
 
 		return startDt.after(currentDate);
 	}
-	
-	public static boolean isExpiredDate(String end,  final Date currentDate) {
+
+	public static boolean isExpiredDate(String end, final Date currentDate) {
 
 		Date endDt = null;
 		try {
@@ -110,15 +115,32 @@ public class DateUtils {
 		return currentDate.after(endDt);
 	}
 
+	public static long getMonthsBetween(String start, String end) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+			Date dateEnd = DATE_FORMAT.parse(end);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+			LocalDate endDate = LocalDate.ofInstant(dateEnd.toInstant(), ZoneId.systemDefault());
+
+			return ChronoUnit.MONTHS.between(startDate, endDate) ;
+		} catch (Exception ex) {
+
+		}
+		return 0;
+	}
+
 	public static void main(String[] args) {
 //		System.out.println(validateDates("2024-7-7", "2024-7-31"));
 
 		try {
+			System.out.println(getMonthsBetween("2024-7-10", "2024-8-31"));
 //			System.out.println(isDateInBetween("2024-7-8", "2024-7-31", DATE_FORMAT.parse("2024-8-1")));
 //			System.out.println(isDateInBetween("2024-7-9", "2024-7-31", new Date()));
-			System.out.println(isExpiredDate("2024-8-25", DATE_FORMAT.parse("2024-8-25")));
-			
-			System.out.println(isFutureDate("2024-8-1","2024-8-27", DATE_FORMAT.parse("2024-7-1")));
+//			System.out.println(isExpiredDate("2024-8-25", DATE_FORMAT.parse("2024-8-25")));
+
+//			System.out.println(isFutureDate("2024-8-1", "2024-8-27", DATE_FORMAT.parse("2024-7-1")));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
