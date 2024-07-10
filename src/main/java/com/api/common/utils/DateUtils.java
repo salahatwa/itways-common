@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.IsoFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -125,13 +125,13 @@ public class DateUtils {
 			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
 			LocalDate endDate = LocalDate.ofInstant(dateEnd.toInstant(), ZoneId.systemDefault());
 
-			return ChronoUnit.MONTHS.between(startDate, endDate) ;
+			return ChronoUnit.MONTHS.between(startDate, endDate);
 		} catch (Exception ex) {
 
 		}
 		return 0;
 	}
-	
+
 	public static String getNextQuarter(String start) {
 
 		try {
@@ -139,18 +139,17 @@ public class DateUtils {
 
 			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
 
-			var d= startDate.plusMonths(3);//.with(TemporalAdjusters.lastDayOfMonth())
-			
+			var d = startDate.plusMonths(3);// .with(TemporalAdjusters.lastDayOfMonth())
+
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			
+
 			return d.format(formatter);
 		} catch (Exception ex) {
 
 		}
 		return start;
 	}
-	
-	
+
 	public static String getNextMonth(String start) {
 
 		try {
@@ -158,17 +157,17 @@ public class DateUtils {
 
 			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
 
-			var d= startDate.plusMonths(1);//.with(TemporalAdjusters.lastDayOfMonth())
-			
+			var d = startDate.plusMonths(1);// .with(TemporalAdjusters.lastDayOfMonth())
+
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			
+
 			return d.format(formatter);
 		} catch (Exception ex) {
 
 		}
 		return start;
 	}
-	
+
 	public static String getNextYear(String start) {
 
 		try {
@@ -176,7 +175,25 @@ public class DateUtils {
 
 			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
 
-			var d= startDate.plusYears(1);//.with(TemporalAdjusters.lastDayOfMonth())
+			var d = startDate.plusYears(1);// .with(TemporalAdjusters.lastDayOfMonth())
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+			return d.format(formatter);
+		} catch (Exception ex) {
+
+		}
+		return start;
+	}
+	
+	public static String getNextHalfYear(String start) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
+			var d= startDate.plusMonths(6);//.with(TemporalAdjusters.lastDayOfMonth())
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			
@@ -187,11 +204,29 @@ public class DateUtils {
 		return start;
 	}
 
+	public static long getNumOfQuarters(String start, String end) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+			Date dateEnd = DATE_FORMAT.parse(end);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+			LocalDate endDate = LocalDate.ofInstant(dateEnd.toInstant(), ZoneId.systemDefault());
+
+			return IsoFields.QUARTER_YEARS.between(startDate, endDate);
+
+		} catch (Exception ex) {
+
+		}
+		return 0;
+	}
+
 	public static void main(String[] args) {
 //		System.out.println(validateDates("2024-7-7", "2024-7-31"));
 
 		try {
-			System.out.println(getNextMonth("2024-7-10"));
+			System.out.println(getNumOfQuarters("2024-07-10", "2026-08-31"));
+//			System.out.println(getNextMonth("2024-7-10"));
 //			System.out.println(getMonthsBetween("2024-7-10", "2024-8-31"));
 //			System.out.println(isDateInBetween("2024-7-8", "2024-7-31", DATE_FORMAT.parse("2024-8-1")));
 //			System.out.println(isDateInBetween("2024-7-9", "2024-7-31", new Date()));
