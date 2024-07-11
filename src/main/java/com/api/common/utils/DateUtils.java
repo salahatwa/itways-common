@@ -220,6 +220,24 @@ public class DateUtils {
 		}
 		return 0;
 	}
+	
+	public static String getNextMonthsByNum(int nums,String start) {
+
+		try {
+			Date dateStart = DATE_FORMAT.parse(start);
+
+			LocalDate startDate = LocalDate.ofInstant(dateStart.toInstant(), ZoneId.systemDefault());
+
+			var d= startDate.plusMonths(nums);//.with(TemporalAdjusters.lastDayOfMonth())
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			return d.format(formatter);
+		} catch (Exception ex) {
+
+		}
+		return start;
+	}
 
 	public static void main(String[] args) {
 //		System.out.println(validateDates("2024-7-7", "2024-7-31"));
