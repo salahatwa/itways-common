@@ -7,9 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -126,6 +128,19 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
 		return repository.findById(id);
 	}
 
+	@Override
+	public Optional<DOMAIN> fetchOneBy(Example<DOMAIN> example) {
+		Assert.notNull(example, domainName + " example must not be null");
+
+		return repository.findOne(example);
+	}
+
+	@Override
+	public DOMAIN getOneBy(Example<DOMAIN> example) {
+		return fetchOneBy(example)
+				.orElseThrow(() -> new NotFoundException(domainName + " was not found or has been deleted"));
+	}
+
 	/**
 	 * Get by id
 	 *
@@ -175,6 +190,16 @@ public abstract class AbstractCrudService<DOMAIN, ID> implements CrudService<DOM
 		if (!existsById(id)) {
 			throw new NotFoundException(domainName + " was not exist");
 		}
+	}
+
+	/**
+	 * count all
+	 *
+	 * @return long
+	 */
+	@Override
+	public long count(Example<DOMAIN> example) {
+		return repository.count(example);
 	}
 
 	/**
